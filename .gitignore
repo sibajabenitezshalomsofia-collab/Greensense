@@ -1,0 +1,6 @@
+# Credenciales locales: nunca subir a GitHub
+firmware/secrets.h
+
+# Archivos temporales
+.DS_Store
+Thumbs.db
