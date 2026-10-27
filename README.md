@@ -1,55 +1,51 @@
 # GreenSense 🌱
 
-Sistema de riego inteligente basado en ESP32 para observar las condiciones de una planta y apoyar el riego según la humedad del suelo y la detección de lluvia.
+Sistema IoT de riego inteligente basado en ESP32 para observar las condiciones de una planta y controlar una bomba según la humedad del suelo y la detección de lluvia.
 
 ## Objetivo
-Construir un prototipo que mida variables ambientales y del suelo, y permita supervisar las lecturas mediante Blynk IoT. El control de la bomba debe comprobarse durante las pruebas integradas antes de afirmar que funciona correctamente.
+El prototipo lee temperatura y humedad ambiental con un DHT11, estima la humedad del suelo, lee un sensor de lluvia y envía datos a Blynk IoT. La lógica compartida en el firmware activa la bomba cuando la humedad del suelo calculada es inferior al 40 % y no se detecta lluvia.
 
 ## Componentes principales
 - ESP32 DevKit V1
-- Sensor de humedad y temperatura DHT11
-- Sensor de humedad del suelo
-- Sensor de lluvia o nivel de agua (confirmar modelo exacto)
+- Sensor DHT11
+- Sensor capacitivo de humedad del suelo
+- Sensor analógico de lluvia
 - Módulo de relé de un canal
-- Bomba de agua pequeña, manguera y recipiente
+- Bomba pequeña, manguera y recipiente
 - Protoboard y cables Dupont
 - Fuente USB/power bank compatible
 - Carcasa impresa en 3D
 
-## Asignación de pines documentada en el código actual
-| Componente | Pin ESP32 |
+## Pines del firmware
+| Componente | GPIO ESP32 |
+|---|---:|
+| DHT11 | 4 |
+| Humedad del suelo (analógico) | 34 |
+| Sensor de lluvia (analógico) | 35 |
+| Relé de la bomba | 12 |
+
+## Datastreams de Blynk
+| Pin virtual | Dato |
 |---|---|
-| DHT11 | GPIO 4 |
-| Humedad del suelo (salida analógica) | GPIO 34 |
-| Sensor de lluvia (salida analógica) | GPIO 35 |
-| Señal del relé | GPIO 12 |
+| V1 | Temperatura |
+| V2 | Humedad ambiental |
+| V3 | Humedad del suelo calculada |
+| V4 | Estado de bomba indicado por la lógica |
+| V5 | Lectura analógica del sensor de lluvia |
 
-Comprueba este cuadro frente al montaje físico antes de conectar la alimentación. No conectes la bomba directamente a un pin del ESP32.
+## Estructura
+- `firmware/`: código e instrucciones de configuración.
+- `hardware/`: conexiones y archivos de la carcasa.
+- `docs/`: documentación y registro de pruebas.
+- `images/`: fotografías y diagramas.
 
-## Arquitectura
-Sensores → ESP32 → procesamiento de lecturas → panel Blynk IoT.  
-El ESP32 controla el módulo de relé para accionar la bomba según la lógica programada, siempre que esa función haya sido validada con pruebas.
+## Configuración
+Consulta `firmware/README.md`. Las credenciales se guardan localmente en `firmware/secrets.h`, excluido por `.gitignore`. Nunca publiques tokens de Blynk ni contraseñas Wi-Fi.
 
-## Estructura del repositorio
-- `firmware/`: código del ESP32 y notas de compilación.
-- `hardware/`: conexiones, esquema y archivos de la carcasa.
-- `docs/`: informe, resultados de pruebas y documentación.
-- `images/`: fotografías del prototipo y diagramas.
-
-## Preparación
-1. Abre `firmware/README.md` y consulta las bibliotecas necesarias.
-2. Abre el archivo del firmware en Arduino IDE.
-3. Instala las bibliotecas que use el programa (por ejemplo, la biblioteca DHT y la biblioteca de Blynk).
-4. Configura las credenciales localmente, sin subirlas al repositorio.
-5. Selecciona la placa ESP32 Dev Module, el puerto correcto y compila.
-6. Sube el programa y prueba cada sensor por separado antes de hacer la prueba integrada.
-
-## Seguridad y privacidad
-**No publiques tokens de Blynk, contraseñas Wi-Fi ni otros secretos.** Usa marcadores de posición en ejemplos públicos y configura tus credenciales localmente. Si alguna credencial real se publicó anteriormente, cámbiala.
-
-## Estado de las pruebas
-Los resultados deben registrarse después de probar físicamente el prototipo. No se declaran mediciones ni funcionamiento automático sin evidencia.
+## Pruebas
+Los resultados se deben registrar después de probar físicamente el prototipo. El estado indicado por el programa no sustituye la comprobación real de la bomba.
 
 ## Autoría
-Proyecto escolar GreenSense — Colegio Jorge Gaitán Cortés I.E.D.  
-Integrantes, curso, docente y fecha de entrega: completar con los datos reales.
+Colegio Jorge Gaitán Cortés — 2026.  
+Autores declarados en el firmware: S. S. Sibaja, G. A. Torres, S. Solano y J. E. Mantilla.  
+Asesor: Diego Bautista Pulido.
