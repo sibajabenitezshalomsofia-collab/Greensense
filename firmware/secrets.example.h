@@ -1,5 +1,5 @@
-// EJEMPLO PUBLICO. Copia este archivo como secrets.h y rellena los datos
-// solo en tu equipo. No pongas credenciales reales en este archivo de ejemplo.
+// EJEMPLO PÚBLICO: no pongas aquí tus credenciales reales.
+// Copia este archivo como secrets.h en tu equipo y completa los valores allí.
 #define BLYNK_TEMPLATE_ID "TU_TEMPLATE_ID"
 #define BLYNK_TEMPLATE_NAME "GreenSense"
 #define BLYNK_AUTH_TOKEN "TU_TOKEN_BLYNK"
